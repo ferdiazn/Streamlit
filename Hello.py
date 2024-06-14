@@ -13,7 +13,7 @@ st.markdown(
     """
     Welcome to your first streamlit app!
 
-    **👈 Select any pages from the sidebar** to see some my project such as my final project as Data Scientist
+    ** Here is** some of my project such as my final project as Data Scientist
     Bootcamp at dibimbing.id
 
 """
