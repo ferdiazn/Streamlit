@@ -17,7 +17,7 @@ st.markdown(
     Seeking a challenging position that leverages my business acumen and allows me to develop both soft and technical skills within a dynamic company.
 
     **Here is** some of my project such as my final project as Data Scientist
-    Bootcamp at dibimbing.id
+    Bootcamp at dibimbing.id and I use Retail Transaction data set in my portofolio!
 
 """
 )
