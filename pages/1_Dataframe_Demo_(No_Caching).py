@@ -1,62 +1,39 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import time
+import seaborn as sns
+%matplotlib inline
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import statsmodels.api as sm
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+import plotly.express as px
+import calendar
+import matplotlib.ticker as mticker
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-st.title('Demo: Loading Uber Pickup Data in NYC without Caching')
-
-st.markdown(
-    """
-    Di script ini, kita bakal nulis Python code yang akan:
-    - Nge-download dataset dari internet
-    - Mengubah kolom tanggal menjadi format datetime
-    - Setelah dataset tersebut ter-download, kita bisa tampilkan dataset tersebut as a Pandas Dataframe
-    """
-)
-
-DATE_COLUMN = 'Date/Time'
-DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
-            'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
-
-def load_data(nrow):
-    ### Simulating Loading a Large Dataset
-    data = pd.read_csv(DATA_URL, nrows=nrow)
-
-    chunk_1 = data[0:200]
-    chunk_2 = data[200:400]
-    chunk_3 = data[400:600]
-    chunk_4 = data[600:800]
-    chunk_5 = data[800:]
-
-    all_chunk = [chunk_1, chunk_2, chunk_3, chunk_4, chunk_5]
-
-    new_data = pd.DataFrame()
-    counter_text = st.text('Processing...')
-    for i, chunk in enumerate(all_chunk):
-        counter_text.text(f"Processing Part {i+1}/{len(all_chunk)}")
-        time.sleep(0.6)
-        new_data = pd.concat([new_data, chunk]).reset_index(drop = True)
-        # new_data = new_data.append(chunk).reset_index(drop = True)
-    del counter_text
-    
-    data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
-    return data
-
-data_load_state = st.text('Loading data...')
-data = load_data(1000)
-data_load_state.text('Done!')
-
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(data)
+st.title('Consumer Behavior at Retail Store')
 
 st.markdown(
     """
-    Nah, sekarang coba refresh the app. Pasti dia bakal nge-download ulang semua dataset tersebut.
-
-    Caching memungkinkan kita agar, jika app kita di refresh, tapi tidak ada perubahan ke suatu 'function', maka..
-    ..'hasil' running dari function ini tetap disimpan sama Streamlit, sehingga function ini tidak akan di re-run tiap kali kita refresh the app.
-
-    Page 2 akan mendemokan apa bedanya jika kita pake 'caching' in our functions, terutama pada functions yang nge-load data banyak.
+    Berikut adalah insight-insight yang ditemukan mulai dari EDA sampai Machine Learning
     """
 )
+    df=pd.read_csv("dataset/Retail_Transaction_Dataset.csv")
+
+    df_prod = df.groupby('ProductCategory')
+Product_sales = df_prod['Quantity'].sum().sort_values(ascending=False).rename('Total Sales')
+Product_sales
+
+plt.figure(figsize=(5, 3))
+sns.barplot(data=df, x='ProductCategory', y='Quantity', estimator=sum, errorbar=None)
+plt.title('Total Sales Quantity by Product Category')
+plt.xlabel('Product Category')
+plt.ylabel('Total Sales Quantity')
+plt.ylim(122000, 127000)  # Adjust the range of y-axis here
+plt.tight_layout()
+plt.show()
