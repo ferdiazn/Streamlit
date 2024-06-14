@@ -1,4 +1,7 @@
 import streamlit as st
+import pandas as pd
+
+df=pd.read_csv("dataset/Retail_Transaction_Dataset.csv")
 
 st.set_page_config(
     page_title="Hello",
@@ -31,3 +34,5 @@ if st.button("Say hello"):
     st.write("Why hello there")
 else:
     st.write("Goodbye")
+
+st.dataframe(df)
